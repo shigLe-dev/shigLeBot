@@ -49,9 +49,9 @@ namespace shigLeBot
             {
                 return;
             }
-            if (message.Content == "こんにちは")
+            if (message.Content == "hoge")
             {
-                await message.Channel.SendMessageAsync("こんにちは、" + message.Author.Username + "さん！");
+                await message.Channel.SendMessageAsync("foo @" + message.Author.Username);
             }
         }
     }
