@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KurisuJuha\\source\\repos\\shigLeBot\\shigLeBot\\shigLeBot.csproj",
+      "projectUniqueName": "C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\shigLeBot.csproj",
       "projectName": "shigLeBot",
-      "projectPath": "C:\\Users\\KurisuJuha\\source\\repos\\shigLeBot\\shigLeBot\\shigLeBot.csproj",
+      "projectPath": "C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\shigLeBot.csproj",
       "packagesPath": "C:\\Users\\KurisuJuha\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KurisuJuha\\source\\repos\\shigLeBot\\shigLeBot\\obj\\",
+      "outputPath": "C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
