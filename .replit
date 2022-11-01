@@ -1,1 +1,1 @@
-run = "dotnet run"
+run = "dotnet run --project shigLeBot"
