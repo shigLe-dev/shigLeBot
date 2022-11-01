@@ -17,7 +17,10 @@ namespace shigLeBot
 
         public Program()
         {
-            _client = new DiscordSocketClient();
+            _client = new DiscordSocketClient(new DiscordSocketConfig()
+            {
+                GatewayIntents = GatewayIntents.All
+            });
             _client.Log += LogAsync;
             _client.Ready += onReady;
             _client.MessageReceived += onMessage;
@@ -51,7 +54,7 @@ namespace shigLeBot
             }
             if (message.Content == "hoge")
             {
-                await message.Channel.SendMessageAsync("foo @" + message.Author.Username);
+                await message.Channel.SendMessageAsync(message.Author.Mention + "foo");
             }
         }
     }
