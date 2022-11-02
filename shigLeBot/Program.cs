@@ -9,7 +9,8 @@ namespace shigLeBot
 {
     class Program
     {
-        private readonly DiscordSocketClient _client;
+        private static DiscordSocketClient client;
+        public static Dictionary<ulong, Server> servers = new Dictionary<ulong, Server>();
 
         #region ボイラーテンプレート
         static void Main(string[] args)
@@ -19,19 +20,19 @@ namespace shigLeBot
 
         public Program()
         {
-            _client = new DiscordSocketClient(new DiscordSocketConfig()
+            client = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 GatewayIntents = GatewayIntents.All
             });
-            _client.Log += LogAsync;
-            _client.Ready += onReady;
-            _client.MessageReceived += onMessage;
+            client.Log += LogAsync;
+            client.Ready += onReady;
+            client.MessageReceived += onMessage;
         }
 
         public async Task MainAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, ConfigurationManager.AppSettings["botToken"]);
-            await _client.StartAsync();
+            await client.LoginAsync(TokenType.Bot, ConfigurationManager.AppSettings["botToken"]);
+            await client.StartAsync();
 
             await Task.Delay(Timeout.Infinite);
         }
@@ -44,23 +45,23 @@ namespace shigLeBot
 
         private Task onReady()
         {
-            Console.WriteLine($"{_client.CurrentUser} is Running!!");
+            Console.WriteLine($"{client.CurrentUser} is Running!!");
             return Task.CompletedTask;
         }
 
         private async Task onMessage(SocketMessage message)
         {
-            if (message.Author.Id == _client.CurrentUser.Id)
+            if (message.Author.Id == client.CurrentUser.Id)
             {
                 return;
             }
             if (message.Content == "hoge")
             {
                 await message.Channel.SendMessageAsync(message.Author.Mention + "foo");
+                CommandContext context = new CommandContext(client, message as SocketUserMessage);
+                Console.WriteLine(context.Guild.Id);
             }
         }
         #endregion
-
-
     }
 }
