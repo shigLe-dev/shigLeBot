@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,14 @@ namespace shigLeBot
             this.command = command;
         }
 
-        public Job NewJob()
+        public IEnumerator NewJob(Message message)
         {
-            Job job = new Job();
-            return job;
+            return job(message);
+        }
+
+        private IEnumerator job(Message message)
+        {
+            yield return null;
         }
     }
 }

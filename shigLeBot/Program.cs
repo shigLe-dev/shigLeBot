@@ -3,6 +3,7 @@ using Discord.Commands;
 using Discord.Webhook;
 using Discord.WebSocket;
 using System;
+using System.Collections;
 using System.Configuration;
 
 namespace shigLeBot
@@ -10,6 +11,7 @@ namespace shigLeBot
     class Program
     {
         private static DiscordSocketClient client;
+        public static List<IEnumerator> serverloops = new List<IEnumerator>();
         public static Dictionary<ulong, Server> servers = new Dictionary<ulong, Server>();
 
         #region ボイラーテンプレート
@@ -29,7 +31,7 @@ namespace shigLeBot
             client.Ready += onReady;
             client.MessageReceived += onMessage;
 
-            MainLoop();
+            Task.Run(MainLoop);
         }
 
         public async Task MainAsync()
@@ -63,10 +65,10 @@ namespace shigLeBot
         {
             while (true)
             {
-                for (int i = servers.Count - 1; i >= 0; i--)
+                for (int i = serverloops.Count - 1; i >= 0; i--)
                 {
                     // サーバーループを一つ進める
-                    servers.ElementAt(i).Value.ServerLoop().MoveNext();
+                    serverloops[i].MoveNext();
                 }
             }
         }
@@ -74,18 +76,25 @@ namespace shigLeBot
         // メッセージを受けた場合
         private async Task onMessage(SocketMessage message)
         {
-            // メッセージがnullの場合は無視する
-            if (message == null) return;
-            // メッセージが時分自身の場合は無視する
-            if (message.Author.Id == client.CurrentUser.Id) return;
-
-            // コンテキスト生成
-            CommandContext context = new CommandContext(client, message as SocketUserMessage);
-
-            if (servers.TryGetValue(context.Guild.Id, out Server server))
+            try
             {
-                server.AddMessage(context);
-                await message.Channel.SendMessageAsync(context.Message.Content);
+                // メッセージがnullの場合は無視する
+                if (message == null) return;
+                // メッセージが時分自身の場合は無視する
+                if (message.Author.Id == client.CurrentUser.Id) return;
+
+                // コンテキスト生成
+                CommandContext context = new CommandContext(client, message as SocketUserMessage);
+
+                if (servers.TryGetValue(context.Guild.Id, out Server server))
+                {
+                    server.AddMessage(context);
+                    await message.Channel.SendMessageAsync(context.Message.Content);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }
