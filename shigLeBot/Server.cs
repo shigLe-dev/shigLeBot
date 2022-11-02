@@ -20,7 +20,10 @@ namespace shigLeBot
 
         public void AddMessage(CommandContext context)
         {
-            messages.Add(new Message(context));
+            lock (messages)
+            {
+                messages.Add(new Message(context));
+            }
         }
 
         public IEnumerator ServerLoop()
@@ -28,23 +31,26 @@ namespace shigLeBot
             while (true)
             {
                 // たまっているメッセージを変換できる場合はjobに変換する
-                foreach (Message message in messages)
+                lock (messages)
                 {
-                    // commands内から適しているcommandを探す
-                    foreach (var command in commands)
+                    foreach (Message message in messages)
                     {
-                        // messageがcommandに適しているか調べる
-                        if (command.command == message.context.Message.Content)
+                        // commands内から適しているcommandを探す
+                        foreach (var command in commands)
                         {
-                            jobs.Add(command.NewJob(message));
-                            break;
-                        }
+                            // messageがcommandに適しているか調べる
+                            if (command.command == message.context.Message.Content)
+                            {
+                                jobs.Add(command.NewJob(message));
+                                break;
+                            }
 
+                            yield return null;
+                        }
                         yield return null;
                     }
-                    yield return null;
+                    messages.Clear();
                 }
-                messages.Clear();
 
                 yield return null;
 
