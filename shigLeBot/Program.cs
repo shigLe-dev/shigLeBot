@@ -10,6 +10,8 @@ namespace shigLeBot
     class Program
     {
         private readonly DiscordSocketClient _client;
+
+        #region ボイラーテンプレート
         static void Main(string[] args)
         {
             new Program().MainAsync().GetAwaiter().GetResult();
@@ -57,5 +59,8 @@ namespace shigLeBot
                 await message.Channel.SendMessageAsync(message.Author.Mention + "foo");
             }
         }
+        #endregion
+
+
     }
 }
