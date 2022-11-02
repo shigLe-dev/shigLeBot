@@ -8,6 +8,17 @@ namespace shigLeBot
 {
     internal class Command
     {
+        public string command { get; private set; } = "";
+        
+        public Command(string command)
+        {
+            this.command = command;
+        }
 
+        public Job NewJob()
+        {
+            Job job = new Job();
+            return job;
+        }
     }
 }

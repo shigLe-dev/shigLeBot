@@ -9,6 +9,6 @@ namespace shigLeBot
             this.context = context;
         }
 
-        private CommandContext context;
+        public CommandContext context;
     }
 }
