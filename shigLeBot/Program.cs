@@ -20,6 +20,7 @@ namespace shigLeBot
 
         public Program()
         {
+            SetServers();
             client = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 GatewayIntents = GatewayIntents.All
@@ -27,6 +28,8 @@ namespace shigLeBot
             client.Log += LogAsync;
             client.Ready += onReady;
             client.MessageReceived += onMessage;
+
+            MainLoop();
         }
 
         public async Task MainAsync()
@@ -48,20 +51,42 @@ namespace shigLeBot
             Console.WriteLine($"{client.CurrentUser} is Running!!");
             return Task.CompletedTask;
         }
+        #endregion
 
-        private async Task onMessage(SocketMessage message)
+        private void SetServers()
         {
-            if (message.Author.Id == client.CurrentUser.Id)
+            new Server(811964339375308890);
+            new Server(1031157559404548107);
+        }
+
+        private void MainLoop()
+        {
+            while (true)
             {
-                return;
-            }
-            if (message.Content == "hoge")
-            {
-                await message.Channel.SendMessageAsync(message.Author.Mention + "foo");
-                CommandContext context = new CommandContext(client, message as SocketUserMessage);
-                Console.WriteLine(context.Guild.Id);
+                for (int i = servers.Count - 1; i >= 0; i--)
+                {
+                    // サーバーループを一つ進める
+                    servers.ElementAt(i).Value.ServerLoop().MoveNext();
+                }
             }
         }
-        #endregion
+
+        // メッセージを受けた場合
+        private async Task onMessage(SocketMessage message)
+        {
+            // メッセージがnullの場合は無視する
+            if (message == null) return;
+            // メッセージが時分自身の場合は無視する
+            if (message.Author.Id == client.CurrentUser.Id) return;
+
+            // コンテキスト生成
+            CommandContext context = new CommandContext(client, message as SocketUserMessage);
+
+            if (servers.TryGetValue(context.Guild.Id, out Server server))
+            {
+                server.AddMessage(context);
+                await message.Channel.SendMessageAsync(context.Message.Content);
+            }
+        }
     }
 }

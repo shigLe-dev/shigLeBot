@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using Discord.Commands;
 
 namespace shigLeBot
 {
     internal class Server
     {
+        private ulong id;
+        private List<Message> messages = new List<Message>();
+        private List<Command> commands = new List<Command>();
+
         public Server(ulong id)
         {
             this.id = id;
@@ -15,6 +16,18 @@ namespace shigLeBot
             Program.servers.Add(id, this);
         }
 
-        private ulong id;
+        public void AddMessage(CommandContext context)
+        {
+            messages.Add(new Message(context));
+        }
+
+        public IEnumerator ServerLoop()
+        {
+            while (true)
+            {
+                Console.WriteLine(id);
+                yield return null;
+            }
+        }
     }
 }
