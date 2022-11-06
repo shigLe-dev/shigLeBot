@@ -1,0 +1,50 @@
+﻿{
+  "commands": {
+    "testCommand": {
+      "5dbfc6bf-f5e5-499f-8f8e-6cc01750e16d": {
+        "opcode": "if_else",
+        "next": null,
+
+        "inputs": {
+          "nextTrue": "hogeFunc",
+          "nextFalse": "hogeFunc2",
+          "condition": true
+        }
+      },
+      "e7a45ee6-e0dd-4c51-8561-cfa440e153b0": {
+        "opcode": "hogeFunc",
+        "next": null,
+
+        "inputs": {
+          "hogeParam": "foo"
+        }
+      },
+      "ad476d34-2903-4212-bc4d-470324b22b3c": {
+        "opcode": "hogeFunc2",
+        "next": null,
+
+        "inputs": {
+          "hogeParam2": 1234
+        }
+      }
+    },
+    "testCommand2": {
+      "048faa88-7aa6-40c8-9e45-51ddea9f88b8 ": {
+        "opcode": "hogeFunc1",
+        "next": "33b9c83c-d1f8-4a1c-805b-52dd75058fe1",
+
+        "inputs": {
+          "hogeParam": "foo"
+        }
+      },
+      "33b9c83c-d1f8-4a1c-805b-52dd75058fe1": {
+        "opcode": "hogeFunc2",
+        "next": null,
+
+        "inputs": {
+          "hogeParam2": 1234
+        }
+      }
+    }
+  }
+}

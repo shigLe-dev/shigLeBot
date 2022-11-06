@@ -9,20 +9,26 @@ namespace shigLeBot
 {
     internal class Command
     {
-        public string command { get; private set; } = "";
+        public string key { get; private set; } = "";
+        private Func<Message, IEnumerator> j;
         
-        public Command(string command)
+        public Command(string key, Func<Message, IEnumerator> j)
         {
-            this.command = command;
+            this.key = key;
+            this.j = j;
         }
 
         public IEnumerator NewJob(Message message)
         {
-            return job(message);
+            if (j == null) return job(message);
+
+            return j(message);
         }
 
         private IEnumerator job(Message message)
         {
+            Console.WriteLine(message.context.Message.Content);
+
             yield return null;
         }
     }

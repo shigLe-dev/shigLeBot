@@ -5,6 +5,8 @@ using Discord.WebSocket;
 using System;
 using System.Collections;
 using System.Configuration;
+using System.Net;
+using System.Net.Sockets;
 
 namespace shigLeBot
 {
@@ -17,6 +19,9 @@ namespace shigLeBot
         #region ボイラーテンプレート
         static void Main(string[] args)
         {
+            var tcpListener = new TcpListener(IPAddress.Loopback, 12345);
+            tcpListener.Start();
+
             new Program().MainAsync().GetAwaiter().GetResult();
         }
 
@@ -89,7 +94,6 @@ namespace shigLeBot
                 if (servers.TryGetValue(context.Guild.Id, out Server server))
                 {
                     server.AddMessage(context);
-                    await message.Channel.SendMessageAsync(context.Message.Content);
                 }
             }
             catch (Exception e)
