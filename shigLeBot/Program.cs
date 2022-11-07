@@ -1,64 +1,26 @@
-﻿using Discord;
-using Discord.Commands;
-using Discord.Webhook;
+﻿using Discord.Commands;
 using Discord.WebSocket;
-using System;
 using System.Collections;
-using System.Configuration;
-using System.Net;
-using System.Net.Sockets;
+using System.Text;
 
 namespace shigLeBot
 {
     class Program
     {
-        private static DiscordSocketClient client;
         public static List<IEnumerator> serverloops = new List<IEnumerator>();
         public static Dictionary<ulong, Server> servers = new Dictionary<ulong, Server>();
 
-        #region ボイラーテンプレート
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var tcpListener = new TcpListener(IPAddress.Loopback, 12345);
-            tcpListener.Start();
-
-            new Program().MainAsync().GetAwaiter().GetResult();
+            new Program();
         }
 
-        public Program()
+        Program()
         {
             SetServers();
-            client = new DiscordSocketClient(new DiscordSocketConfig()
-            {
-                GatewayIntents = GatewayIntents.All
-            });
-            client.Log += LogAsync;
-            client.Ready += onReady;
-            client.MessageReceived += onMessage;
-
+            new DiscordBotServer(onMessage);
             Task.Run(MainLoop);
         }
-
-        public async Task MainAsync()
-        {
-            await client.LoginAsync(TokenType.Bot, ConfigurationManager.AppSettings["botToken"]);
-            await client.StartAsync();
-
-            await Task.Delay(Timeout.Infinite);
-        }
-
-        private Task LogAsync(LogMessage log)
-        {
-            Console.WriteLine(log.ToString());
-            return Task.CompletedTask;
-        }
-
-        private Task onReady()
-        {
-            Console.WriteLine($"{client.CurrentUser} is Running!!");
-            return Task.CompletedTask;
-        }
-        #endregion
 
         private void SetServers()
         {
@@ -79,26 +41,34 @@ namespace shigLeBot
         }
 
         // メッセージを受けた場合
-        private async Task onMessage(SocketMessage message)
+        private async Task onMessage(CommandContext context)
         {
             try
             {
-                // メッセージがnullの場合は無視する
-                if (message == null) return;
-                // メッセージが時分自身の場合は無視する
-                if (message.Author.Id == client.CurrentUser.Id) return;
-
-                // コンテキスト生成
-                CommandContext context = new CommandContext(client, message as SocketUserMessage);
-
                 if (servers.TryGetValue(context.Guild.Id, out Server server))
                 {
                     server.AddMessage(context);
+                    StringBuilder builder = new StringBuilder();
+
+                    builder.Append("MessageID : ");
+                    builder.AppendLine(context.Message.Id.ToString());
+                    builder.Append("    UserID : ");
+                    builder.AppendLine(context.User.Id.ToString());
+                    builder.Append("    GuildID : ");
+                    builder.AppendLine(context.Guild.Id.ToString());
+                    builder.Append("    ChannelID : ");
+                    builder.AppendLine(context.Channel.Id.ToString());
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(builder.ToString());
+                    Console.ResetColor();
                 }
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(e.Message);
+                Console.ResetColor();
             }
         }
     }
