@@ -38,7 +38,7 @@ namespace shigLeBot
 
         public async Task MainAsync()
         {
-            await client.LoginAsync(TokenType.Bot, ConfigurationManager.AppSettings["botToken"]);
+            await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("bottoken"));
             await client.StartAsync();
 
             await Task.Delay(Timeout.Infinite);
