@@ -25,8 +25,6 @@ namespace shigLeBot
             return j(message);
         }
 
-
-
         private IEnumerator nullJob(Message message)
         {
             Console.WriteLine(message.context.Message.Content);
