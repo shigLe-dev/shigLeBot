@@ -20,12 +20,14 @@ namespace shigLeBot
 
         public IEnumerator NewJob(Message message)
         {
-            if (j == null) return defaultJob(message);
+            if (j == null) return nullJob(message);
 
             return j(message);
         }
 
-        private IEnumerator defaultJob(Message message)
+
+
+        private IEnumerator nullJob(Message message)
         {
             Console.WriteLine(message.context.Message.Content);
 

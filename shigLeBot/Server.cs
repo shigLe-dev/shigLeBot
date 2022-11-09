@@ -26,6 +26,14 @@ namespace shigLeBot
             }
         }
 
+        public void AddCommand(Command command)
+        {
+            lock (commands)
+            {
+                commands.Add(command);
+            }
+        }
+
         public IEnumerator ServerLoop()
         {
             while (true)
