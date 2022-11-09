@@ -18,8 +18,11 @@ namespace shigLeBot
         Program()
         {
             SetServers();
+            Task.Run(() =>
+            {
+                MainLoop();
+            });
             new DiscordBotServer(onMessage);
-            Task.Run(MainLoop);
         }
 
         private void SetServers()
@@ -32,7 +35,7 @@ namespace shigLeBot
         {
             while (true)
             {
-                for (int i = serverloops.Count - 1; i >= 0; i--)
+                for (int i = 0; i < serverloops.Count; i++)
                 {
                     // サーバーループを一つ進める
                     serverloops[i].MoveNext();
