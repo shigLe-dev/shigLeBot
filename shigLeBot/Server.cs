@@ -39,7 +39,7 @@ namespace shigLeBot
                         foreach (var command in commands)
                         {
                             // messageがcommandに適しているか調べる
-                            if (command.key == message.context.Message.Content)
+                            if (command.key == message.context.Message.Content.Split(' ')?[0])
                             {
                                 jobs.Add(command.NewJob(message));
                                 break;
