@@ -398,5 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 shigLeBot/App.config
 shigLeBot/.env
-shigLeBot/shigLeBot/Properties/launchSettings.json
 shigLeBot/Properties/launchSettings.json
