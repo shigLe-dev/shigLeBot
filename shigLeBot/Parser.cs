@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace shigLeBot
@@ -22,19 +23,33 @@ namespace shigLeBot
                 var node = JsonNode.Parse(code);
 
                 JsonNode commands = node["commands"];
+
+
                 foreach (var kvp in commands.AsObject())
                 {
                     var key = kvp.Key;
-                    var methods = kvp.Value;
+                    var value = kvp.Value;
 
-                    foreach (var method in methods.AsObject())
+                    List<Method> methods = new List<Method>();
+
+                    foreach (var method in value.AsObject())
                     {
-                        ParseMethod(method.Key, method.Value);
+                        methods.Add(ParseMethod(method.Key, method.Value));
                     }
+
+                    result.Add(new Command(key, jsonCommandJ, methods));
                 }
             });
 
             return result.ToArray();
+        }
+
+        //TODO:JSONからパースした処理を実際に実行するコードを書かないといけない
+        private IEnumerator jsonCommandJ(Message m, object obj)
+        {
+            Method[] methods = ((List<Method>)obj).ToArray();
+            yield return null;
+            Console.WriteLine(m.context.Message.Content);
         }
 
         private Method ParseMethod(string key, JsonNode value)

@@ -27,7 +27,6 @@ namespace shigLeBot
 
         private void SetServers()
         {
-            new Parser(new StreamReader("C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\Example.json").ReadToEnd()).Parse();
             new Server(811964339375308890);
             new Server(1031157559404548107);
         }
