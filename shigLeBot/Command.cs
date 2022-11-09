@@ -9,8 +9,8 @@ namespace shigLeBot
 {
     internal class Command
     {
-        public string key { get; private set; } = "";
-        private Func<Message, IEnumerator> j;
+        public readonly string key = "";
+        private readonly Func<Message, IEnumerator> j;
         
         public Command(string key, Func<Message, IEnumerator> j)
         {
@@ -20,12 +20,12 @@ namespace shigLeBot
 
         public IEnumerator NewJob(Message message)
         {
-            if (j == null) return job(message);
+            if (j == null) return defaultJob(message);
 
             return j(message);
         }
 
-        private IEnumerator job(Message message)
+        private IEnumerator defaultJob(Message message)
         {
             Console.WriteLine(message.context.Message.Content);
 

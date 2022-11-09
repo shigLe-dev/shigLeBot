@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "shigLeBot": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "bottoken": "MTAzNzAxMjUzNDE3MzExODUxNA.GZmows.8BFxFvp7Ijp0ayWvEtXgG_3zRS73pv7zJpqvFQ"
+      }
+    }
+  }
+}
