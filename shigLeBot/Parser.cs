@@ -44,12 +44,48 @@ namespace shigLeBot
             return result.ToArray();
         }
 
-        //TODO:JSONからパースした処理を実際に実行するコードを書かないといけない
+        //TODO: JSONからパースした処理を実際に実行するコードを書かないといけない
         private IEnumerator jsonCommandJ(Message m, object obj)
         {
             Method[] methods = ((List<Method>)obj).ToArray();
+            // methodsが一つもない場合すぐに終わる
+            if (methods.Length == 0) yield break;
+            Method entryPoint = methods[0];
+
             yield return null;
-            Console.WriteLine(m.context.Message.Content);
+
+            // idをキーにしたmethodの辞書を作る
+            Dictionary<string, Method> id_methods = new Dictionary<string, Method>();
+            methods.ToList().ForEach(m => { id_methods[m.id] = m; });
+
+            yield return null;
+
+            Method currentMethod = entryPoint;
+
+            // entrypointから順に実行する
+            while (true)
+            {
+                // 実行
+                if (!Program.builtInMethods.methods.TryGetValue(currentMethod.opcode, out IMethod bm))
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine("    " + currentMethod.opcode);
+                    Console.ResetColor();
+                    break;
+                }
+
+                IEnumerator e = bm.Run(currentMethod.input);
+                while (e.MoveNext())
+                {
+                    yield return null;
+                }
+                if (currentMethod.next == "") break;
+
+                // nextがある場合それを実行する
+                currentMethod = id_methods[currentMethod.next];
+
+                yield return null;
+            }
         }
 
         private Method ParseMethod(string key, JsonNode value)
