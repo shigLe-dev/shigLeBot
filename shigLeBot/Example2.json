@@ -1,0 +1,22 @@
+﻿{
+  "commands": {
+    "testCommand4": {
+      "db1bdcf0-5527-4793-91a9-09ed4eaecda5": {
+        "opcode": "test",
+        "next": "85f5eb89-3ec1-4120-9032-96c4ca353c23",
+
+        "inputs": {
+          "hogeParam": "foo"
+        }
+      },
+      "85f5eb89-3ec1-4120-9032-96c4ca353c23": {
+        "opcode": "test",
+        "next": null,
+
+        "inputs": {
+          "hogeParam2": 1234
+        }
+      }
+    }
+  }
+}

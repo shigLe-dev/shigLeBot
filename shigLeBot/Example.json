@@ -45,6 +45,24 @@
           "hogeParam2": 1234
         }
       }
+    },
+    "testCommand3": {
+      "9d5c9ff9-e00d-4823-907d-4f64fc7a28d8": {
+        "opcode": "test",
+        "next": "6c276092-363e-44fe-88f2-4f24b525a4fb",
+
+        "inputs": {
+          "hogeParam": "foo"
+        }
+      },
+      "6c276092-363e-44fe-88f2-4f24b525a4fb": {
+        "opcode": "testServerAdd",
+        "next": null,
+
+        "inputs": {
+          "hogeParam2": 1234
+        }
+      }
     }
   }
 }
