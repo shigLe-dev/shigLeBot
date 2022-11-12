@@ -30,7 +30,7 @@
     },
     "testCommand2": {
       "048faa88-7aa6-40c8-9e45-51ddea9f88b8 ": {
-        "opcode": "hogeFunc1",
+        "opcode": "test",
         "next": "33b9c83c-d1f8-4a1c-805b-52dd75058fe1",
 
         "inputs": {
@@ -38,7 +38,7 @@
         }
       },
       "33b9c83c-d1f8-4a1c-805b-52dd75058fe1": {
-        "opcode": "hogeFunc2",
+        "opcode": "test",
         "next": null,
 
         "inputs": {

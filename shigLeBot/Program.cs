@@ -9,7 +9,7 @@ namespace shigLeBot
     {
         public static List<IEnumerator> serverloops = new List<IEnumerator>();
         public static Dictionary<ulong, Server> servers = new Dictionary<ulong, Server>();
-        public static BuiltInMethods builtInMethods;
+        public static BuiltInMethod builtInMethod;
 
         private static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace shigLeBot
         Program()
         {
             SetServers();
-            builtInMethods = new BuiltInMethods();
+            builtInMethod = new BuiltInMethod();
             Task.Run(() =>
             {
                 MainLoop();

@@ -1,24 +1,37 @@
 ﻿using shigLeBot.Methods;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 
 namespace shigLeBot
 {
-    internal class BuiltInMethods
+    internal class BuiltInMethod
     {
         public Dictionary<string, IMethod> methods = new Dictionary<string, IMethod>();
 
-        public BuiltInMethods()
+        public BuiltInMethod()
         {
             SetBuiltInMethods();
         }
 
         private void SetBuiltInMethods()
         {
-            methods.Add("if_else", new if_else());
+            methods.Add("if_else", new if_elseMethod());
+            methods.Add("test", new testMethod());
+        }
+
+        public IEnumerator Run(string methodName, Message message, MethodInput methodInput)
+        {
+            if (!methods.TryGetValue(methodName, out IMethod method)) yield break;
+
+            yield return null;
+
+            var e = method.Run(message, methodInput);
+
+            yield return null;
+
+            while (e.MoveNext())
+            {
+                yield return null;
+            }
         }
     }
 }

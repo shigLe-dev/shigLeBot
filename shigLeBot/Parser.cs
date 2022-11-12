@@ -34,7 +34,9 @@ namespace shigLeBot
 
                     foreach (var method in value.AsObject())
                     {
-                        methods.Add(ParseMethod(method.Key, method.Value));
+                        Method m = ParseMethod(method.Key, method.Value);
+                        Console.WriteLine(m.id);
+                        methods.Add(m);
                     }
 
                     result.Add(new Command(key, jsonCommandJ, methods));
@@ -56,7 +58,10 @@ namespace shigLeBot
 
             // idをキーにしたmethodの辞書を作る
             Dictionary<string, Method> id_methods = new Dictionary<string, Method>();
-            methods.ToList().ForEach(m => { id_methods[m.id] = m; });
+            foreach (var method in methods)
+            {
+                id_methods[method.id] = method;
+            }
 
             yield return null;
 
@@ -66,22 +71,22 @@ namespace shigLeBot
             while (true)
             {
                 // 実行
-                if (!Program.builtInMethods.methods.TryGetValue(currentMethod.opcode, out IMethod bm))
-                {
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine("    " + currentMethod.opcode);
-                    Console.ResetColor();
-                    break;
-                }
-
-                IEnumerator e = bm.Run(currentMethod.input);
+                var e = Program.builtInMethod.Run(currentMethod.opcode, m, currentMethod.input);
                 while (e.MoveNext())
                 {
                     yield return null;
                 }
-                if (currentMethod.next == "") break;
+
+                yield return null;
+
 
                 // nextがある場合それを実行する
+                if (currentMethod.next == "")
+                {
+                    Console.WriteLine("nextが存在しません。正常終了です。：" + currentMethod.id);
+                    break;
+                }
+
                 currentMethod = id_methods[currentMethod.next];
 
                 yield return null;
@@ -91,8 +96,8 @@ namespace shigLeBot
         private Method ParseMethod(string key, JsonNode value)
         {
             string id = key;
-            string opcode = value["opcode"].ToString();
-            string next = value["next"]?.ToString();
+            string opcode = value["opcode"]?.GetValue<string>() ?? "";
+            string next = value["next"]?.ToString() ?? "";
 
             Dictionary<string, string> inputString = new Dictionary<string, string>();
             Dictionary<string, bool> inputBoolean = new Dictionary<string, bool>();

@@ -4,6 +4,6 @@ namespace shigLeBot
 {
     internal interface IMethod
     {
-        public IEnumerator Run(MethodInput methodInput);
+        public IEnumerator Run(Message message, MethodInput methodInput);
     }
 }
