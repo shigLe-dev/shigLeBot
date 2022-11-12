@@ -17,6 +17,19 @@
           "hogeParam2": 1234
         }
       }
+    },
+    "testCommand5": {
+      "f64e4bd8-50d9-478a-a4b7-8472538bbfc6": {
+        "opcode": "testArgs",
+        "next": null,
+        "inputs": {
+          "param1": "str",
+          "param2": 1234,
+          "param3": true,
+          "param4": false,
+          "param5": 1234.5
+        }
+      }
     }
   }
 }

@@ -119,14 +119,7 @@ namespace shigLeBot
                         inputString[input.Key] = input.Value.GetValue<string>();
                         break;
                     case JsonValueKind.Number:
-                        if (float.TryParse(input.Value.GetValue<float>().ToString(), out float vf))
-                        {
-                            inputFloat[input.Key] = vf;
-                        }
-                        else if (int.TryParse(input.Value.GetValue<float>().ToString(), out int vi))
-                        {
-                            inputInt[input.Key] = vi;
-                        }
+                        inputFloat[input.Key] = input.Value.GetValue<float>();
                         break;
                     case JsonValueKind.True:
                         inputBoolean[input.Key] = true;
@@ -141,7 +134,7 @@ namespace shigLeBot
                 }
             }
 
-            MethodInput methodInput = new MethodInput(inputString, inputBoolean, inputInt, inputFloat);
+            MethodInput methodInput = new MethodInput(inputString, inputBoolean, inputFloat);
 
             return new Method(id, opcode, next, methodInput);
         }

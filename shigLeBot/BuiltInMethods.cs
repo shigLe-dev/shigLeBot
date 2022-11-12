@@ -17,6 +17,7 @@ namespace shigLeBot
             methods.Add("if_else", new if_elseMethod());
             methods.Add("test", new testMethod());
             methods.Add("testServerAdd", new testServerAddMethod());
+            methods.Add("testArgs", new testArgsMethod());
         }
 
         public IEnumerator Run(string methodName, Message message, MethodInput methodInput)

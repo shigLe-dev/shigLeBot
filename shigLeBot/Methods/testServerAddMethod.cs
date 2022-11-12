@@ -4,7 +4,6 @@ namespace shigLeBot.Methods
 {
     internal class testServerAddMethod : IMethod
     {
-        //Todo: Testメソッドの実装
         public IEnumerator Run(Message message, MethodInput methodInput)
         {
             Task.Run(async () =>
