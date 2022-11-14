@@ -16,15 +16,18 @@ namespace shigLeBot
 
             Program.servers.Add(id, this);
             Program.serverloops.Add(ServerLoop());
-            Task.Run(async () =>
+            if (Platform.platform == "Local")
             {
-                var a = await new Parser(new StreamReader("C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\Example.json").ReadToEnd()).Parse();
-
-                foreach (var item in a)
+                Task.Run(async () =>
                 {
-                    AddCommand(item);
-                }
-            });
+                    var a = await new Parser(new StreamReader("C:\\Users\\KurisuJuha\\Documents\\GitHub\\shigLeBot\\shigLeBot\\Example.json").ReadToEnd()).Parse();
+
+                    foreach (var item in a)
+                    {
+                        AddCommand(item);
+                    }
+                });
+            }
         }
 
         public void AddMessage(CommandContext context)
