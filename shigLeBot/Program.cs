@@ -13,6 +13,7 @@ namespace shigLeBot
 
         private static void Main(string[] args)
         {
+            Console.WriteLine(Platform.platform);
             new Program();
         }
 
@@ -39,8 +40,17 @@ namespace shigLeBot
             {
                 for (int i = 0; i < serverloops.Count; i++)
                 {
-                    // サーバーループを一つ進める
-                    serverloops[i].MoveNext();
+                    try
+                    {
+                        // サーバーループを一つ進める
+                        serverloops[i].MoveNext();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(e.Message);
+                        Console.ResetColor();
+                    }
                 }
             }
         }

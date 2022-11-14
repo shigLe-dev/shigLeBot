@@ -13,7 +13,6 @@ namespace shigLeBot
             this.code = code;
         }
 
-
         public async Task<Command[]> Parse()
         {
             List<Command> result = new List<Command>();
